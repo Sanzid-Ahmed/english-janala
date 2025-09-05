@@ -1,7 +1,7 @@
 # English-Janala-Website.
 
-New Things learned from this website =>
--VS Code = view -> word wrap.
+#New Things learned from this website =>
+- VS Code = view -> word wrap.
 
 - Step 01 => 
 1. We give url to fetch(). 
