@@ -1,40 +1,61 @@
 const loadLessons = () => {
     fetch("https://openapi.programming-hero.com/api/levels/all") //promise of response.
-    .then((res) => res.json()) // promise of jeson data. 
-    .then((json) => displayLesson(json.data))
+        .then((res) => res.json()) // promise of jeson data. 
+        .then((json) => displayLesson(json.data))
 };
 
 const loadLevelWord = (id) => {
     console.log(id);
     const url = `https://openapi.programming-hero.com/api/level/${id}`;
     fetch(url)
-    .then(res => res.json())
-    .then(data => displayLevwlWord(data.data));
+        .then(res => res.json())
+        .then(data => displayLevwlWord(data.data));
 };
 
-const displayLevwlWord =(words)=> {
+const displayLevwlWord = (words) => {
     const wordContainer = document.getElementById("word-container");
     wordContainer.innerHTML = "";
 
-    words.forEach(word =>{
+
+    if(words.length == 0){
+        wordContainer.innerHTML = `
+            <div class="text-center col-span-full rounded-xl py-10 space-y-6 font-bangla">
+                <img class="mx-auto" src="./assets/alert-error.png"/>
+                <p class="text-xl font-medium text-gray-400">এই Lesson এ এখনো কোন Vocabulary যুক্ত করা হয়নি।</p>
+                <h2 class="font-bold text-4xl ">নেক্সট Lesson এ যান</h2>
+            </div>
+        `;
+        return; 
+    }
+
+    words.forEach(word => {
         const card = document.createElement("div");
-        card.innerHTML = `<p>Hello</p>`;
+        card.innerHTML = `
+        <div class="bg-white rounded-xl shadow-sm text-center py-20 px-5 space-y-4 ">
+            <h2 class="font-bold text-2xl ">${word.word ? word.word : "শব্দ পাওয়া যায় নি"}</h2>
+            <p class="font-semibold">Meaning / Pronounciation</p>
+            <div class="text-xl font-semibold font-bangla">${word.meaning ? word.meaning : "অর্থ পাওয়া যায় নি"} / ${word.pronunciation ? word.pronunciation : "পাওয়া যায় নি"}</div>
+            <div class="flex justify-between items-center">
+                <button class="btn bg-[#1A91FF10] hover:bg-[#1A91FF80]"><i class="fa-solid fa-circle-info"></i></button>
+                <button class="btn bg-[#1A91FF10] hover:bg-[#1A91FF80]"><i class="fa-solid fa-volume-high"></i></button>
+            </div>
+        </div>`;
 
         wordContainer.append(card);
     })
 };
 
-const displayLesson = (lessons)=>{
+const displayLesson = (lessons) => {
     // 1. get the container. 
     // 2. get into evely lesson. 
     // 3. creat element. 
     // 4. append into container.
-    
+
     // 1
     const levelContainer = document.getElementById("level-container");
     levelContainer.innerHTML = "";
     // 2
-    for(let lesson of lessons){
+    for (let lesson of lessons) {
         // 3. 
         console.log(lesson);
         const btnDiv = document.createElement("div");
@@ -44,6 +65,6 @@ const displayLesson = (lessons)=>{
         // 4.
         levelContainer.append(btnDiv);
     }
-}; 
+};
 
 loadLessons();
